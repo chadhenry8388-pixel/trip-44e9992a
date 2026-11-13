@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font-size:14px;font-family:system-ui,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>채드·헨리 도쿄 여행</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one narrow pocket-itinerary column; sticky day tabs; every schedule is a time rail + what-to-do row */
+:root{
+  --bg:#F2F4F0; --surface:#FFFFFF; --ink:#17201C; --muted:#56625C; --line:#D8DED9; --shadow:rgba(20,30,25,.12);
+  --pine:#1D5843; --pine-soft:#E1EDE7; --red:#B0232E; --red-soft:#F6E2E3; --gold:#8A6209; --gold-soft:#F5ECD3;
+  --hero-bg:#1D5843; --hero-ink:#F3F6F4; --hero-muted:#BBD1C6; --hero-tile:rgba(255,255,255,.10);
+  --jr:#5E9B2E; --keiyo:#C4202B; --seibu:#1D68AE; --sky:#0B7499; --chip-ink:#FFFFFF;
+  --z-tom:#3366A8; --z-fan:#9A3F94; --z-wes:#9C6224; --z-adv:#2C7F4F; --z-baz:#7B6C22;
+  --font-display:"Do Hyeon","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Hiragino Sans","Malgun Gothic",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1412; --surface:#171F1B; --ink:#E5EBE7; --muted:#99A69F; --line:#28332E; --shadow:rgba(0,0,0,.5);
+    --pine:#6CC19B; --pine-soft:#1B2D25; --red:#F0727A; --red-soft:#3A1D20; --gold:#E2B54E; --gold-soft:#302717;
+    --hero-bg:#13241D; --hero-ink:#EEF3F0; --hero-muted:#9DB6AA; --hero-tile:rgba(255,255,255,.06);
+    --jr:#8DC75D; --keiyo:#EE5A62; --seibu:#5DA3E0; --sky:#4DB5DC; --chip-ink:#0F1412;
+    --z-tom:#76A3E0; --z-fan:#D38BCE; --z-wes:#D9A062; --z-adv:#6BC38F; --z-baz:#C9B865;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1412; --surface:#171F1B; --ink:#E5EBE7; --muted:#99A69F; --line:#28332E; --shadow:rgba(0,0,0,.5);
+  --pine:#6CC19B; --pine-soft:#1B2D25; --red:#F0727A; --red-soft:#3A1D20; --gold:#E2B54E; --gold-soft:#302717;
+  --hero-bg:#13241D; --hero-ink:#EEF3F0; --hero-muted:#9DB6AA; --hero-tile:rgba(255,255,255,.06);
+  --jr:#8DC75D; --keiyo:#EE5A62; --seibu:#5DA3E0; --sky:#4DB5DC; --chip-ink:#0F1412;
+  --z-tom:#76A3E0; --z-fan:#D38BCE; --z-wes:#D9A062; --z-adv:#6BC38F; --z-baz:#C9B865;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--pine)}
+:focus-visible{outline:2px solid var(--pine);outline-offset:2px;border-radius:4px}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* hero */
+.hero{background:var(--hero-bg);color:var(--hero-ink)}
+.hero .wrap{padding-block:28px 22px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.05em;color:var(--hero-muted);margin:0}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(36px,9vw,52px);line-height:1.05;margin:10px 0 8px;text-wrap:balance}
+.hero p.who{margin:0;color:var(--hero-muted);font-size:14px}
+.keyline{margin-top:18px}
+.keyline .lbl{font-size:12px;color:var(--hero-muted);letter-spacing:.04em;margin:0 0 6px}
+.keyline .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.keyline .tiles div{background:var(--hero-tile);border-radius:8px;padding:10px 12px;min-width:0}
+.keyline b{display:block;font-family:var(--font-mono);font-weight:600;font-size:21px;font-variant-numeric:tabular-nums;color:var(--hero-ink)}
+.keyline span{display:block;font-size:12.5px;color:var(--hero-muted);line-height:1.35}
+
+/* nav */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+nav.tabs .wrap::-webkit-scrollbar{display:none}
+nav.tabs a{flex:none;text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 11px;border-radius:999px;white-space:nowrap}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px var(--shadow)}
+nav.tabs a.star{color:var(--red)}
+
+/* sections */
+main section{scroll-margin-top:calc(58px + env(safe-area-inset-top,0px));padding-block:30px 6px}
+.date{font-family:var(--font-mono);font-size:12px;color:var(--muted);letter-spacing:.05em;margin:0}
+h2{font-family:var(--font-display);font-weight:400;font-size:30px;line-height:1.15;margin:4px 0 14px;text-wrap:balance}
+h3{font-size:16.5px;font-weight:700;margin:28px 0 10px;text-wrap:balance}
+p{margin:0 0 10px}
+.lead{color:var(--muted);font-size:14.5px}
+.stack{display:flex;flex-direction:column;gap:10px}
+ul.plain{margin:0;padding-left:1.2em}
+ul.plain li{margin-bottom:6px}
+ul.plain li::marker{color:var(--muted)}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+
+/* overview */
+.days{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.days li+li{border-top:1px solid var(--line)}
+.days a{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;text-decoration:none;color:var(--ink)}
+.days a:hover{background:var(--bg)}
+.days .d{font-family:var(--font-mono);font-weight:600;font-size:13.5px;line-height:1.25}
+.days .d small{display:block;font-family:var(--font-body);font-weight:500;color:var(--muted);font-size:12px}
+.days .t{font-weight:600;line-height:1.4}
+.days .t small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.days li.main a{background:var(--red-soft)}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:7px;height:16px;border-radius:2px;background:var(--line)}
+.meter i.on{background:var(--pine)}
+.days li.main .meter i.on{background:var(--red)}
+.meter-key{font-size:12.5px;color:var(--muted);margin-top:8px}
+
+/* callouts */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.box.assume{background:transparent;border-style:dashed}
+.box .k{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted);margin:0 0 4px}
+.box p:last-child{margin-bottom:0}
+
+/* timetable */
+.tt{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tt li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:11px 14px}
+.tt li+li{border-top:1px solid var(--line)}
+.tt time{font-family:var(--font-mono);font-weight:600;font-size:14px;font-variant-numeric:tabular-nums;padding-top:1px;white-space:nowrap}
+.tt .what{min-width:0}
+.tt .what>b{font-weight:600}
+.tt .note{display:block;color:var(--muted);font-size:13.5px;line-height:1.5;margin-top:2px}
+.tt li.key{background:var(--pine-soft)}
+.tt li.parade{background:var(--gold-soft)}
+.tt li.parade time{color:var(--gold)}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:0 7px;border-radius:999px;vertical-align:2px;margin-left:4px;line-height:1.7}
+.pill.dpa{background:var(--red-soft);color:var(--red)}
+.pill.mo{background:var(--pine-soft);color:var(--pine)}
+.tt li.key .pill.mo{background:var(--surface)}
+.zone{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--muted);margin-left:6px;white-space:nowrap;vertical-align:1px}
+.zone::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--zc)}
+.z-tom{--zc:var(--z-tom)} .z-fan{--zc:var(--z-fan)} .z-wes{--zc:var(--z-wes)} .z-adv{--zc:var(--z-adv)} .z-baz{--zc:var(--z-baz)}
+.ln{display:inline-block;font-size:11px;font-weight:700;color:var(--chip-ink);background:var(--c);padding:0 6px;border-radius:4px;margin-right:5px;vertical-align:2px;line-height:1.75;white-space:nowrap}
+
+/* facts */
+.facts{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.facts>div{display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;padding:10px 14px}
+.facts>div+div{border-top:1px solid var(--line)}
+.facts dt{color:var(--muted);font-size:13px;padding-top:1px}
+.facts dd{margin:0;min-width:0}
+.facts dd .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:600}
+.facts>div.hl{background:var(--gold-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chips span{font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+
+/* app steps */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;padding:12px 14px}
+.steps li+li{border-top:1px solid var(--line)}
+.steps li::before{content:counter(s);font-family:var(--font-mono);font-weight:600;font-size:13px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--pine);color:var(--surface)}
+.steps li.first::before{background:var(--red)}
+.steps b{font-weight:700}
+.steps .note{display:block;color:var(--muted);font-size:13.5px;line-height:1.5;margin-top:2px}
+.steps .if{display:grid;gap:4px;margin-top:6px;font-size:13.5px}
+.steps .if div{background:var(--bg);border-radius:6px;padding:6px 9px}
+
+/* plan switch */
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;font-size:14px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--line);padding:4px;border-radius:12px;margin-bottom:10px}
+.seg button{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:9px;padding:9px 8px;background:transparent;color:var(--muted);cursor:pointer;line-height:1.3}
+.seg button small{display:block;font-weight:500;font-size:12px}
+.seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px var(--shadow)}
+
+/* tables */
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 12px;text-align:left;vertical-align:top}
+tbody tr,tfoot tr{border-top:1px solid var(--line)}
+thead th{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+td.num,th.num{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tfoot td{font-weight:700}
+tr.skip td{color:var(--muted)}
+tr.skip td.num{text-decoration:line-through}
+
+/* checklist */
+.chk-group{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;cursor:pointer}
+.chk+.chk{border-top:1px solid var(--line)}
+.chk input{width:18px;height:18px;margin:3px 0 0;accent-color:var(--pine);flex:none}
+.chk span{min-width:0}
+.chk input:checked+span{color:var(--muted);text-decoration:line-through}
+.chk b{font-weight:700}
+
+/* hotel card */
+.jp{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.jp .name{font-size:24px;font-weight:700;line-height:1.3;margin:2px 0 6px}
+.jp .addr{font-size:16px;line-height:1.5}
+.jp .row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:10px;font-size:13.5px;color:var(--muted)}
+.jp .row .mono{font-family:var(--font-mono);color:var(--ink);user-select:all}
+.btn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:5px 12px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+
+.links{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.links li+li{border-top:1px solid var(--line)}
+.links a{display:block;padding:10px 14px;text-decoration:none;font-weight:500}
+.links a:hover{background:var(--bg)}
+footer{padding-block:28px 40px;color:var(--muted);font-size:13px}
+
+/* saturday map + stops */
+.map{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.map svg{display:block;width:100%;height:auto;max-width:100%}
+.map .bg{fill:var(--surface)}
+.map .grid{stroke:var(--line);stroke-width:1;fill:none}
+.map .rail{stroke:var(--jr);stroke-width:5;stroke-linecap:round;opacity:.5}
+.map .rail-t{fill:var(--muted);font:600 10px var(--font-body)}
+.map .route{stroke:var(--red);stroke-width:3;stroke-linecap:round;fill:none}
+.map .route.back{stroke-width:2.5;stroke-dasharray:1 6}
+.map .arw{fill:var(--red)}
+.map .min{fill:var(--red);font:700 11px var(--font-body);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.map .stn{fill:var(--surface);stroke:var(--ink);stroke-width:2.5}
+.map .pin{fill:var(--pine)}
+.map .pin-t{fill:var(--surface);font:600 10.5px var(--font-mono);text-anchor:middle;dominant-baseline:central}
+.map .lbl{fill:var(--ink);font:700 12px var(--font-body)}
+.map .sub{fill:var(--muted);font:500 10.5px var(--font-body)}
+.map .north path{fill:var(--muted)}
+.map .north text{fill:var(--muted);font:700 10px var(--font-mono);text-anchor:middle}
+.map .scale line{stroke:var(--ink);stroke-width:1.5}
+.map .scale text{fill:var(--ink);font:600 10px var(--font-mono);text-anchor:middle}
+.map figcaption{font-size:12.5px;color:var(--muted);padding:8px 14px;border-top:1px solid var(--line)}
+.map-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+a.btn{display:inline-block;text-decoration:none}
+.btn.primary{background:var(--pine);border-color:var(--pine);color:var(--surface);font-size:14px;padding:9px 16px}
+.stops{list-style:none;margin:0;padding:0;counter-reset:st;display:grid;gap:10px}
+.stops>li{counter-increment:st;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.stops>li::before{content:counter(st);font-family:var(--font-mono);font-weight:600;font-size:13px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--pine);color:var(--surface)}
+.stops>li>div{min-width:0}
+.stops h4{margin:1px 0 0;font-size:15.5px;font-weight:700}
+.stops .meta{margin:0 0 6px;font-size:13px;color:var(--muted)}
+.stops ul{margin:0;padding-left:1.1em;font-size:14px}
+.stops ul li{margin-bottom:3px}
+.maplink{display:inline-block;margin-top:6px;font-size:13.5px;font-weight:600}
+
+@media (max-width:420px){
+  .keyline b{font-size:18px}
+  .facts>div{grid-template-columns:1fr;gap:2px}
+  h2{font-size:27px}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">2026. 11. 20 (금) – 11. 23 (월·공휴일) · 3박 4일</p>
+    <h1>채드·헨리 도쿄 여행</h1>
+    <p class="who">안젤라 · 채드 11세 · 헨리 9세 &nbsp;|&nbsp; 숙소 알몬트 호텔 닛포리</p>
+    <div class="keyline">
+      <p class="lbl">11/22 (일) 디즈니랜드 하루의 기준 시각</p>
+      <div class="tiles">
+        <div><b>06:40</b><span>호텔 출발</span></div>
+        <div><b>12:45</b><span>크리스마스 퍼레이드</span></div>
+        <div><b>18:00</b><span>퇴장</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="날짜별 이동">
+  <div class="wrap">
+    <a href="#overview">한눈에</a>
+    <a href="#day1">금 · 해리포터</a>
+    <a href="#day2">토 · 긴자</a>
+    <a href="#disney" class="star">일 · 디즈니</a>
+    <a href="#day4">월 · 귀국</a>
+    <a href="#prep">준비물</a>
+    <a href="#money">경비</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="overview">
+  <p class="date">OVERVIEW</p>
+  <h2>4일 한눈에 보기</h2>
+  <ol class="days">
+    <li><a href="#day1"><span class="d">11/20<small>금</small></span><span class="t">도착 + 해리포터 스튜디오<small>겨울 이벤트 '매지컬 윈터' 기간</small></span><span class="meter" aria-label="체력 4칸 중 3칸"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></a></li>
+    <li><a href="#day2"><span class="d">11/21<small>토</small></span><span class="t">긴자 쇼핑<small>유니클로 · 오케이 · 무인양품 · 로프트, 16시 마무리</small></span><span class="meter" aria-label="체력 4칸 중 2칸"><i class="on"></i><i class="on"></i><i></i><i></i></span></a></li>
+    <li class="main"><a href="#disney"><span class="d">11/22<small>일</small></span><span class="t">도쿄 디즈니랜드<small>06:40 출발 ~ 18:00 퇴장</small></span><span class="meter" aria-label="체력 4칸 중 4칸"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></a></li>
+    <li><a href="#day4"><span class="d">11/23<small>월·공휴일</small></span><span class="t">아사쿠사 또는 야나카 긴자 → 공항<small>아침에 먼저 체크아웃</small></span><span class="meter" aria-label="체력 4칸 중 1칸"><i class="on"></i><i></i><i></i><i></i></span></a></li>
+  </ol>
+  <p class="meter-key">막대는 그날 쓰는 체력입니다. 토요일은 16시에 끝내고 체력을 아낍니다.</p>
+  <div class="box assume">
+    <p class="k">항공</p>
+    <p class="small">나리타 도착 09:30 전후 (인천 07:00 출발). 귀국편 시각이 정해지면 4일차의 호텔 출발 시각(비행기 출발 3시간 30분 전)만 맞추면 됩니다.</p>
+  </div>
+</section>
+
+<section id="day1">
+  <p class="date">DAY 1 · 11/20 FRI</p>
+  <h2>도착 + 해리포터 스튜디오</h2>
+  <ol class="tt">
+    <li><time>07:00</time><div class="what"><b>인천 출발</b></div></li>
+    <li><time>09:30</time><div class="what"><b>나리타 도착 → 입국·짐 찾기</b><span class="note">Visit Japan Web QR을 미리 화면에 띄워 둔다</span></div></li>
+    <li><time>10:40</time><div class="what"><b><span class="ln" style="--c:var(--sky)">스카이라이너</span>나리타 → 닛포리</b><span class="note">약 40분 · 대인 약 ¥2,580, 어린이 약 반값 · 20~40분 간격</span></div></li>
+    <li><time>11:30</time><div class="what"><b>호텔 프런트에 짐 맡기기</b><span class="note">체크인 15:00 전 짐 보관이 되는지 미리 확인</span></div></li>
+    <li><time>12:00</time><div class="what"><b>점심</b><span class="note">닛포리 또는 이케부쿠로역</span></div></li>
+    <li><time>13:00</time><div class="what"><b><span class="ln" style="--c:var(--jr)">JR 야마노테</span>닛포리 → 이케부쿠로</b><span class="note">약 15분</span><b style="display:block;margin-top:6px"><span class="ln" style="--c:var(--seibu)">세이부</span>이케부쿠로 → 도시마엔 → 도보 2분</b><span class="note">직통 약 17분. 직통이 아니면 네리마역에서 갈아탄다</span></div></li>
+    <li class="key"><time>14:00</time><div class="what"><b>스튜디오 투어 입장</b><span class="note">예약 시각부터 30분 안에 들어가야 한다. 로비는 1시간 전부터 열린다. 투어는 3.5~4시간. 크리스마스 대연회장, 눈 덮인 호그와트와 금지된 숲, 중간의 백롯 카페에서 버터비어</span></div></li>
+    <li><time>18:00</time><div class="what"><b>숍 → 귀가</b><span class="note">숍이 매우 크다. 들어가기 전에 아이들과 예산을 정한다</span></div></li>
+    <li><time>18:45</time><div class="what"><b>이케부쿠로에서 저녁 → 20:00 체크인</b><span class="note">새벽에 일어난 날이라 일찍 잔다</span></div></li>
+  </ol>
+  <h3>알아 둘 것</h3>
+  <ul class="plain">
+    <li><b>입장을 13:30이 아닌 14:00으로 잡은 이유:</b> 입국 심사가 밀려도 30분 입장 기한을 놓치지 않게.</li>
+    <li><b>입장권</b>은 날짜별로 값이 다르다. 대인 ¥6,600~, 어린이(4~11세) ¥4,000~. 환불이 안 되고 날짜·시간 변경은 건당 ¥1,500.</li>
+    <li><b>지팡이 만들기 워크숍 패키지</b>(초등학생 ¥5,500~): 아이가 직접 색칠하고 꾸며 가져간다. 매진이 잦다.</li>
+    <li><b>매지컬 윈터</b>는 2026.11.13 ~ 2027.1.11. 11/20은 기간 안이다.</li>
+    <li>11/20 운영시간과 마지막 입장 시각은 공식 운영 캘린더에서 확인한다.</li>  </ul>
+</section>
+
+<section id="day2">
+  <p class="date">DAY 2 · 11/21 SAT</p>
+  <h2>긴자 쇼핑 + 디즈니 준비</h2>
+  <p class="lead">네 곳이 모두 유라쿠초역에서 걸어서 4분 안쪽에 있습니다. 가게가 11시에 문을 열어서 아침은 천천히 먹고 나갑니다. 16시에 끝내고 다음 날을 위해 쉽니다.</p>
+
+  <figure class="map">
+    <svg viewBox="0 0 380 292" role="img" aria-labelledby="map-t">
+      <title id="map-t">유라쿠초역에서 유니클로·오케이, 무인양품, 로프트를 돌아 유라쿠초역으로 돌아오는 걷는 길</title>
+      <defs><marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path class="arw" d="M0 0L10 5L0 10z"/></marker></defs>
+      <rect class="bg" width="380" height="292"/>
+      <path class="grid" d="M20 0V292M67.5 0V292M115 0V292M162.5 0V292M210 0V292M257.5 0V292M305 0V292M352.5 0V292M0 25H380M0 72.5H380M0 120H380M0 167.5H380M0 215H380M0 262.5H380"/>
+      <line class="rail" x1="73" y1="0" x2="-30" y2="190"/>
+      <text class="rail-t" transform="translate(19 133) rotate(-61.6)">JR 야마노테선</text>
+      <line class="route" x1="50.5" y1="58.7" x2="212" y2="175.8" marker-end="url(#arw)"/>
+      <line class="route" x1="229.2" y1="198.6" x2="237.3" y2="231.4" marker-end="url(#arw)"/>
+      <line class="route" x1="249.9" y1="236.5" x2="316.7" y2="165" marker-end="url(#arw)"/>
+      <line class="route back" x1="314.7" y1="149.7" x2="55" y2="57.9" marker-end="url(#arw)"/>
+      <text class="min" x="127" y="135" text-anchor="end">4분</text>
+      <text class="min" x="243" y="214">2분</text>
+      <text class="min" x="293" y="212">3분</text>
+      <text class="min" x="190" y="92" text-anchor="middle">4분</text>
+      <circle class="stn" cx="44" cy="54" r="7"/>
+      <text class="lbl" x="66" y="34">JR 유라쿠초역</text>
+      <text class="sub" x="66" y="48">중앙 출구</text>
+      <circle class="pin" cx="226" cy="186" r="13"/><text class="pin-t" x="226" y="186">1·2</text>
+      <text class="lbl" x="210" y="196" text-anchor="end">마로니에게이트 긴자2</text>
+      <text class="sub" x="210" y="211" text-anchor="end">① 유니클로 · ② 오케이(지하)</text>
+      <circle class="pin" cx="241" cy="246" r="11"/><text class="pin-t" x="241" y="246">3</text>
+      <text class="lbl" x="256" y="250">③ 무인양품 긴자</text>
+      <text class="sub" x="256" y="265">1~5층</text>
+      <circle class="pin" cx="327" cy="154" r="11"/><text class="pin-t" x="327" y="154">4</text>
+      <text class="lbl" x="327" y="120" text-anchor="middle">④ 긴자 로프트</text>
+      <text class="sub" x="327" y="134" text-anchor="middle">문구 5층</text>
+      <g class="north" transform="translate(362 10)"><path d="M0 0L6 13L0 10L-6 13z"/><text y="25">N</text></g>
+      <g class="scale"><line x1="16" y1="282" x2="111" y2="282"/><line x1="16" y1="277" x2="16" y2="287"/><line x1="111" y1="277" x2="111" y2="287"/><text x="63.5" y="274">100 m</text></g>
+    </svg>
+    <figcaption>실선은 가는 길, 점선은 역으로 돌아오는 길입니다. 실제 위치를 직선으로 이은 개략도이고 칸 하나가 50 m입니다.</figcaption>
+  </figure>
+  <div class="map-actions">
+    <a class="btn primary" href="https://www.google.com/maps/dir/?api=1&amp;origin=%E6%9C%89%E6%A5%BD%E7%94%BA%E9%A7%85&amp;destination=%E6%9C%89%E6%A5%BD%E7%94%BA%E9%A7%85&amp;waypoints=%E3%83%9E%E3%83%AD%E3%83%8B%E3%82%A8%E3%82%B2%E3%83%BC%E3%83%88%E9%8A%80%E5%BA%A72%7C%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%8A%80%E5%BA%A7%7C%E9%8A%80%E5%BA%A7%E3%83%AD%E3%83%95%E3%83%88&amp;travelmode=walking" target="_blank" rel="noopener">구글 지도로 걷는 길 열기</a>
+  </div>
+
+  <h3>시간표</h3>
+  <ol class="tt">
+    <li><time>08:00</time><div class="what"><b>호텔 조식</b><span class="note">천천히</span></div></li>
+    <li><time>10:20</time><div class="what"><b>호텔 출발 → 닛포리역</b></div></li>
+    <li><time>10:30</time><div class="what"><b><span class="ln" style="--c:var(--jr)">JR 야마노테</span>닛포리 → 유라쿠초</b><span class="note">약 15분, 갈아타지 않는다</span></div></li>
+    <li><time>10:50</time><div class="what"><b>중앙 출구 → 마로니에게이트 긴자2</b><span class="note">도보 4분</span></div></li>
+    <li class="key"><time>11:00</time><div class="what"><b>① UNIQLO TOKYO</b><span class="note">1~4층. 문 여는 시각에 들어가 4층 키즈부터</span></div></li>
+    <li><time>12:00</time><div class="what"><b>점심: 같은 건물 7층</b><span class="note">회전초밥 쿠라스시(くら寿司, 토·일 10:20부터) 또는 무사시노모리 커피(むさしの森珈琲) 팬케이크. 토요일 점심은 12시 전에 들어가는 편이 낫다</span></div></li>
+    <li class="key"><time>13:00</time><div class="what"><b>② 오케이(OK) 긴자점</b><span class="note">같은 건물 지하 1·2층. 과자·음료·과일</span></div></li>
+    <li class="key"><time>13:45</time><div class="what"><b>③ 무인양품 긴자</b><span class="note">도보 2분</span></div></li>
+    <li class="key"><time>14:45</time><div class="what"><b>④ 긴자 로프트</b><span class="note">도보 3분. 아이들 문구는 5층</span></div></li>
+    <li><time>16:00</time><div class="what"><b>유라쿠초역 → 닛포리</b><span class="note">도보 4분 + 약 15분, 16:30쯤 호텔. 면세품은 따로 모아 둔다</span></div></li>
+    <li><time>18:00</time><div class="what"><b>호텔 근처에서 저녁</b></div></li>
+    <li class="key"><time>19:30</time><div class="what"><b>디즈니 준비 30분</b><span class="note">아래 '준비물'의 전날 밤 목록 · 편의점에서 다음 날 아침거리</span></div></li>
+    <li><time>21:00</time><div class="what"><b>취침</b><span class="note">다음 날 06:15 기상</span></div></li>
+  </ol>
+
+  <h3>가게별 메모</h3>
+  <ol class="stops">
+    <li><div><h4>UNIQLO TOKYO</h4><p class="meta">마로니에게이트 긴자2 1~4층 · 11:00~21:00</p>
+      <ul><li>4층에 키즈·베이비 매장과 '유니클로 라이브러리'(그림책, 나무 장난감, 벤치)가 있어 아이들이 쉬기 좋다.</li><li>UTme!: 티셔츠에 그림이나 글자를 골라 넣어 만드는 서비스.</li><li>같은 건물 6층 다이소·Standard Products에도 싼 문구가 많다.</li></ul>
+      <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9E%E3%83%AD%E3%83%8B%E3%82%A8%E3%82%B2%E3%83%BC%E3%83%88%E9%8A%80%E5%BA%A72" target="_blank" rel="noopener">지도에서 보기</a></div></li>
+    <li><div><h4>오케이(OK) 긴자점</h4><p class="meta">같은 건물 지하 1·2층 · 08:30~21:30</p>
+      <ul><li>지하 2층: 과자·음료·디저트·도시락·빵 / 지하 1층: 과일·식료품·술·생활용품, 면세 카운터(10:00~21:00)</li><li>봉투가 유료다. 접는 장바구니를 챙긴다. 신용카드·교통카드로 결제할 수 있다.</li><li>음료·과일처럼 무거운 것은 로프트까지 돈 뒤 역으로 가기 전에 다시 들러 사도 된다(로프트에서 도보 약 3분).</li></ul>
+      <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AA%E3%83%BC%E3%82%B1%E3%83%BC%20%E9%8A%80%E5%BA%A7%E5%BA%97" target="_blank" rel="noopener">지도에서 보기</a></div></li>
+    <li><div><h4>무인양품 긴자</h4><p class="meta">긴자 3-3-5 · 세계 최대급 매장 · 11:00~21:00</p>
+      <ul><li>1층 식품·빵, 지하 1층 MUJI Diner, 6층 ATELIER MUJI.</li><li>면세 계산대는 4층(11:00~20:30).</li></ul>
+      <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">지도에서 보기</a></div></li>
+    <li><div><h4>긴자 로프트</h4><p class="meta">긴자 벨비아관 1~5층 · 토 11:00~21:00 (일요일은 20:00까지)</p>
+      <ul><li>5층: 문구·캐릭터 잡화, 카드·포장 코너, 인쇄 서비스(ロフプリ).</li><li>여러 층에서 산 물건은 3층 면세 카운터에서 한꺼번에 처리한다.</li><li>아이마다 예산을 미리 정해 두면 고르는 시간이 줄어든다.</li></ul>
+      <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7%E3%83%AD%E3%83%95%E3%83%88" target="_blank" rel="noopener">지도에서 보기</a></div></li>
+  </ol>
+
+  <h3>11월 1일부터 바뀐 면세</h3>
+  <div class="box">
+    <ul class="plain">
+      <li>가게에서는 <b>세금 포함 가격으로 계산</b>하고, 출국할 때 공항에서 확인받은 뒤 소비세를 돌려받는다.</li>
+      <li>한 가게에서 하루 <b>¥5,000 이상(세금 제외)</b> 살 때 해당된다. 계산할 때 <b>여권</b>이 필요하다(안젤라 여권).</li>
+      <li>돌려받을 곳(카드 등)은 가게 안내에 따라 등록한다.</li>
+      <li>일본에서 먹거나 쓴 물건은 돌려받지 못한다. 한 번에 계산한 묶음에서 하나라도 확인이 안 되면 그 묶음 전체가 안 된다.</li>
+      <li>나리타에서 <b>짐을 부치기 전에</b> 출발 로비의 면세 단말기에 여권을 대거나 Visit Japan Web으로 확인받는다. 검사 대상으로 나오면 세관에 물건을 보여 줘야 한다.</li>
+    </ul>
+  </div>
+
+</section>
+
+<section id="disney">
+  <p class="date">DAY 3 · 11/22 SUN</p>
+  <h2>도쿄 디즈니랜드</h2>
+  <p class="lead">3일 연휴 가운데 일요일이고 크리스마스 시즌이라 아주 붐빌 날입니다. 이날 1데이 대인권이 최고가(¥12,400)입니다.</p>
+
+  <h3>이날의 공식 정보</h3>
+  <dl class="facts">
+    <div><dt>운영</dt><dd><span class="mono">09:00 – 21:00</span><br><span class="small muted">붐비면 개장 전에 입장을 시작하기도 한다</span></dd></div>
+    <div class="hl"><dt>크리스마스 퍼레이드</dt><dd>토이즈 원더러스 크리스마스! <span class="mono">12:45</span><br><span class="small muted">약 45분 · 하루 1회 · 이것만 본다</span></dd></div>
+    <div><dt>낮 퍼레이드</dt><dd>하모니 인 컬러 <span class="mono">15:25</span><br><span class="small muted">보지 않지만 이 시간엔 퍼레이드 길이 막힌다</span></dd></div>
+    <div><dt>밤</dt><dd>일렉트리컬 퍼레이드 <span class="mono">19:00</span> · 불꽃 <span class="mono">20:30</span><br><span class="small muted">보지 않음</span></dd></div>
+    <div><dt>미키의 매지컬 뮤직 월드</dt><dd><span class="mono">10:50 / 12:15 / 13:40 / 15:45 / 17:10</span><br><span class="small muted">엔트리(무료 추첨) · 우리는 15:45</span></dd></div>
+    <div><dt>이날 쉬는 곳</dt><dd>스위스 패밀리 트리하우스, 신데렐라의 페어리테일 홀, 스티치 인카운터</dd></div>
+    <div><dt>크리스마스 한정</dt><dd><div class="chips"><span>컨트리 베어 '징글벨 잼버리'</span><span>헌티드 맨션 '홀리데이 나이트메어'</span><span>성 앞 졸리푸드 플라자</span><span>월드바자 대형 트리</span></div></dd></div>
+  </dl>
+
+  <h3>호텔 → 디즈니랜드</h3>
+  <ol class="tt">
+    <li><time>06:15</time><div class="what"><b>기상</b><span class="note">전날 산 편의점 아침</span></div></li>
+    <li class="key"><time>06:40</time><div class="what"><b>호텔 출발 → 닛포리역</b><span class="note">도보 5분</span></div></li>
+    <li><time>06:50</time><div class="what"><b><span class="ln" style="--c:var(--jr)">JR</span>야마노테선 또는 게이힌토호쿠선 → 도쿄역</b><span class="note">약 11분</span></div></li>
+    <li><time>07:00</time><div class="what"><b>도쿄역 안에서 게이요선 승강장으로</b><span class="note">지하 깊은 곳까지 15분 안팎 걷는다. 무빙워크가 있다</span></div></li>
+    <li><time>07:15</time><div class="what"><b><span class="ln" style="--c:var(--keiyo)">게이요</span>도쿄 → 마이하마</b><span class="note">13~16분 · 게이요선·무사시노선 열차 모두 마이하마에 선다</span></div></li>
+    <li><time>07:40</time><div class="what"><b>마이하마역 → 입구, 입장 줄</b><span class="note">도보 약 5분</span></div></li>
+  </ol>
+
+  <h3>입장 직후 5분, 앱에서 이 순서로</h3>
+  <p class="small muted">게이트를 지나면 사람 흐름에서 살짝 비켜 서서 바로 합니다. 입장권 3장이 모두 안젤라 폰에 있어야 합니다.</p>
+  <ol class="steps">
+    <li class="first"><div><b>DPA 미녀와 야수, 3명 모두 선택해 구매</b>
+      <div class="if">
+        <div>가장 이른 시간이 <b>10:30 이전</b> 시작 → 그 시간을 사고 <b>플랜 A</b></div>
+        <div>아니면 <b>13:30~14:00</b> 시작을 사고 → <b>플랜 B</b></div>
+        <div class="muted">둘 다 없으면 13:30 이후 가장 이른 시간을 사고, 플랜 B 오후를 그 시간에 맞춰 옮긴다</div>
+      </div></div></li>
+    <li><div><b>엔트리: 미키의 매지컬 뮤직 월드 15:45, 3명</b><span class="note">무료 추첨. 떨어져도 괜찮다</span></div></li>
+    <li><div><b>모바일 오더 점심: 헝그리 베어, 도착 11:00</b></div></li>
+    <li><div><b>모바일 오더 저녁: 투모로우랜드 테라스, 도착 16:30~17:00</b><span class="note">막히면 11시가 지난 뒤 다시 주문</span></div></li>
+    <li><div><b>몬스터 주식회사로 걷기</b><span class="note">월드바자를 나와 오른쪽. 입구에서 가장 가깝다</span></div></li>
+    <li><div><b>두 번째 DPA: 푸의 허니헌트, 3명</b><span class="note">첫 구매 후 60분, 또는 미녀와 야수 시작 시각 중 빠른 때 열린다.<br>플랜 A → 14:30~15:00 시작 / 플랜 B → 가장 이른 시간</span></div></li>
+  </ol>
+
+  <h3>오늘의 동선</h3>
+  <div class="rule">미녀와 야수 DPA 시간을 보고 고르세요. 선택은 이 기기에 기억됩니다.</div>
+  <div class="seg" role="tablist" aria-label="동선 플랜">
+    <button type="button" role="tab" id="tab-a" aria-controls="plan-a" aria-selected="true">플랜 A<small>미녀와 야수 오전</small></button>
+    <button type="button" role="tab" id="tab-b" aria-controls="plan-b" aria-selected="false" tabindex="-1">플랜 B<small>미녀와 야수 오후</small></button>
+  </div>
+
+  <div id="plan-a" role="tabpanel" aria-labelledby="tab-a">
+    <ol class="tt">
+      <li><time>08:45</time><div class="what"><b>입장 + 앱 5분</b></div></li>
+      <li><time>09:05</time><div class="what"><b>몬스터 주식회사</b><span class="zone z-tom">투모로우랜드</span><span class="note">일반 줄. 하루 중 대기가 가장 짧을 때</span></div></li>
+      <li><time>09:55</time><div class="what"><b>두 번째 DPA: 푸 (14:30~15:00 시작)</b></div></li>
+      <li class="key"><time>10:00</time><div class="what"><b>미녀와 야수</b><span class="pill dpa">DPA</span><span class="zone z-fan">판타지랜드</span></div></li>
+      <li><time>10:30</time><div class="what"><b>잇츠 어 스몰 월드</b><span class="zone z-fan">판타지랜드</span><span class="note">바로 옆. 대기 20분 이하일 때</span></div></li>
+      <li><time>10:55</time><div class="what"><b>웨스턴랜드로 이동, 화장실</b><span class="note">약 10분 걷기</span></div></li>
+      <li><time>11:05</time><div class="what"><b>점심: 헝그리 베어</b><span class="pill mo">모바일 오더</span><span class="zone z-wes">웨스턴랜드</span><span class="note">도착하면 앱에서 'I'm Here(店舗に到着しました)'</span></div></li>
+      <li class="parade"><time>11:45</time><div class="what"><b>퍼레이드 자리 잡기</b><span class="note">1번 정지 구간. 방석 깔고 앉아서 간식</span></div></li>
+      <li class="parade"><time>12:45</time><div class="what"><b>토이즈 원더러스 크리스마스!</b><span class="note">출발 직후라 바로 온다. 차량이 멈춰서 공연한다. 13:20쯤 끝</span></div></li>
+      <li><time>13:25</time><div class="what"><b>컨트리 베어 '징글벨 잼버리'</b><span class="zone z-wes">웨스턴랜드</span><span class="note">실내 공연 약 15분</span></div></li>
+      <li><time>14:00</time><div class="what"><b>웨스턴 리버 철도 또는 정글 크루즈</b><span class="zone z-adv">어드벤처랜드</span><span class="note">대기가 짧은 쪽</span></div></li>
+      <li class="key"><time>14:45</time><div class="what"><b>판타지랜드로 건너가기</b><span class="note">15:25 낮 퍼레이드 전에 길이 막히기 시작한다</span></div></li>
+      <li class="key"><time>14:50</time><div class="what"><b>푸의 허니헌트</b><span class="pill dpa">DPA</span><span class="zone z-fan">판타지랜드</span></div></li>
+      <li><time>15:30</time><div class="what"><b>미키의 매지컬 뮤직 월드 15:45</b><span class="zone z-fan">판타지랜드</span><span class="note">당첨 시. 떨어졌으면 헌티드 맨션이나 미키의 필하매직</span></div></li>
+      <li><time>16:20</time><div class="what"><b>투모로우랜드로 이동</b><span class="note">낮 퍼레이드가 지나간 뒤</span></div></li>
+      <li><time>16:45</time><div class="what"><b>저녁: 투모로우랜드 테라스</b><span class="pill mo">모바일 오더</span><span class="zone z-tom">투모로우랜드</span></div></li>
+      <li><time>17:30</time><div class="what"><b>크리스마스 트리 사진 + 기념품</b><span class="zone z-baz">월드바자</span><span class="note">해가 진 뒤라 조명이 켜져 있다</span></div></li>
+      <li class="key"><time>18:00</time><div class="what"><b>퇴장</b><span class="note">마이하마 → 도쿄 → 닛포리, 19:15쯤 호텔</span></div></li>
+    </ol>
+  </div>
+
+  <div id="plan-b" role="tabpanel" aria-labelledby="tab-b" hidden>
+    <ol class="tt">
+      <li><time>08:45</time><div class="what"><b>입장 + 앱 5분</b></div></li>
+      <li><time>09:05</time><div class="what"><b>몬스터 주식회사</b><span class="zone z-tom">투모로우랜드</span><span class="note">일반 줄</span></div></li>
+      <li><time>09:55</time><div class="what"><b>두 번째 DPA: 푸 (가장 이른 시간)</b></div></li>
+      <li class="key"><time>10:15</time><div class="what"><b>푸의 허니헌트</b><span class="pill dpa">DPA</span><span class="zone z-fan">판타지랜드</span></div></li>
+      <li><time>10:40</time><div class="what"><b>헌티드 맨션 또는 컨트리 베어</b><span class="note">헌티드 맨션은 대기 30분 이하이고 아이들이 원할 때만</span></div></li>
+      <li><time>11:10</time><div class="what"><b>점심: 헝그리 베어</b><span class="pill mo">모바일 오더</span><span class="zone z-wes">웨스턴랜드</span></div></li>
+      <li class="parade"><time>11:45</time><div class="what"><b>퍼레이드 자리 잡기</b><span class="note">1번 정지 구간</span></div></li>
+      <li class="parade"><time>12:45</time><div class="what"><b>토이즈 원더러스 크리스마스!</b><span class="note">13:20쯤 끝</span></div></li>
+      <li class="key"><time>13:30</time><div class="what"><b>미녀와 야수</b><span class="pill dpa">DPA</span><span class="zone z-fan">판타지랜드</span><span class="note">퍼레이드 자리에서 약 10분 걷기</span></div></li>
+      <li><time>14:10</time><div class="what"><b>잇츠 어 스몰 월드</b><span class="zone z-fan">판타지랜드</span></div></li>
+      <li><time>14:45</time><div class="what"><b>미키의 필하매직 또는 피터팬</b><span class="zone z-fan">판타지랜드</span><span class="note">15:25 낮 퍼레이드 동안 이쪽에 머문다</span></div></li>
+      <li><time>15:30</time><div class="what"><b>미키의 매지컬 뮤직 월드 15:45</b><span class="note">당첨 시</span></div></li>
+      <li><time>16:20</time><div class="what"><b>투모로우랜드로 이동</b></div></li>
+      <li><time>16:45</time><div class="what"><b>저녁: 투모로우랜드 테라스</b><span class="pill mo">모바일 오더</span><span class="zone z-tom">투모로우랜드</span></div></li>
+      <li><time>17:30</time><div class="what"><b>크리스마스 트리 사진 + 기념품</b><span class="zone z-baz">월드바자</span></div></li>
+      <li class="key"><time>18:00</time><div class="what"><b>퇴장</b><span class="note">19:15쯤 호텔</span></div></li>
+    </ol>
+  </div>
+
+  <h3>크리스마스 퍼레이드 보는 법</h3>
+  <div class="box stack">
+    <p><b>어디서:</b> 웨스턴랜드와 판타지랜드 사이의 <b>1번 정지 구간</b>. 맨 앞 차량은 '더 다이아몬드 홀스슈' 앞, 맨 뒤 차량은 '공중을 나는 덤보' 근처에 멈춘다.</p>
+    <p><b>주의:</b> 카우보이 쿡하우스 앞은 유료(DPA) 관람 구역이다. 그 옆 무료 구역에 앉는다.</p>
+    <p><b>언제:</b> 11:45까지. 화장실은 자리 잡기 전에 셋이 함께 다녀오고, 자리는 늘 한 명이 지킨다.</p>
+    <p><b>왜 여기:</b> 퍼레이드가 이 구간에서 출발해서 12:45에 바로 오고 13:20쯤이면 다 지나간다.</p>
+    <p class="muted"><b>비가 오면</b> 차량이 멈추지 않고 지나가는 축소판으로 바뀔 수 있다. 유료 관람석(¥3,500 × 3)은 사지 않는다.</p>
+  </div>
+
+  <h3>DPA 예산</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>대상</th><th class="num">3명</th><th>판단</th></tr></thead>
+      <tbody>
+        <tr><td><b>미녀와 야수</b></td><td class="num">¥7,500</td><td>꼭 산다. 입장 직후</td></tr>
+        <tr><td><b>푸의 허니헌트</b></td><td class="num">¥4,500</td><td>산다. 두 번째</td></tr>
+        <tr><td>헌티드 맨션 (선택)</td><td class="num">¥3,000</td><td>일반 줄이 40분 넘고 아이들이 꼭 원할 때만</td></tr>
+        <tr class="skip"><td>몬스터 주식회사</td><td class="num">¥3,000</td><td>사지 않는다. 09:05 일반 줄</td></tr>
+        <tr class="skip"><td>퍼레이드 관람석</td><td class="num">¥10,500</td><td>사지 않는다</td></tr>
+      </tbody>
+      <tfoot><tr><td>기본 합계</td><td class="num">¥12,000</td><td class="muted" style="font-weight:400">헌티드 맨션 추가 시 ¥15,000</td></tr></tfoot>
+    </table>
+  </div>
+
+  <h3>현장 규칙</h3>
+  <ul class="plain">
+    <li>DPA가 없는 곳은 <b>대기 40분이 넘으면</b> 줄 서지 않는다. 앱 대기시간을 보고 다음 후보로.</li>
+    <li><b>11:45~13:20, 15:10~16:15</b>에는 퍼레이드 길을 건너기 어렵다. 그 시간엔 한 구역에 머문다.</li>
+    <li>15시쯤 아이들이 지쳐 보이면 실내 공연(컨트리 베어, 필하매직)으로 쉰다.</li>
+    <li>떨어지면 <b>그 자리에 멈춰 가장 가까운 직원(캐스트)에게</b> 말한다. 아이들과 미리 약속.</li>
+    <li>입장권·DPA·주문이 모두 휴대폰 하나에 있다. <b>보조배터리 2개.</b></li>
+  </ul>
+
+  <h3>이번에 타지 않는 것</h3>
+  <p class="small">빅 선더 마운틴, 스플래시 마운틴, 베이맥스, 스타 투어즈, 가젯의 고 코스터. <span class="muted">버즈 라이트이어는 2024년 10월에 운영을 끝냈다.</span></p>
+
+  <h3>메뉴 메모</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>헝그리 베어 (웨스턴랜드)</th><th class="num">가격</th></tr></thead>
+      <tbody>
+        <tr><td>치킨 카레 · 순한맛(マイルド) 선택 가능</td><td class="num">¥900</td></tr>
+        <tr><td>돈가스 카레</td><td class="num">¥1,100</td></tr>
+        <tr><td>헝그리 베어 카레</td><td class="num">¥1,200</td></tr>
+        <tr><td>어린이 세트 <span class="muted small">권장 8세 이하라 양이 적을 수 있다</span></td><td class="num">¥780</td></tr>
+      </tbody>
+      <thead><tr><th style="padding-top:14px">투모로우랜드 테라스</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>베이컨 치즈버거 세트 · 치킨버거 세트</td><td class="num">¥1,290</td></tr>
+        <tr><td>스페셜 버거 세트</td><td class="num">¥1,440</td></tr>
+        <tr><td>미키 츄러스</td><td class="num">¥500</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small muted" style="margin-top:8px">모바일 오더는 자리 예약이 아닙니다. 한 명이 자리를 잡고 한 명이 받아 옵니다.</p>
+</section>
+
+<section id="day4">
+  <p class="date">DAY 4 · 11/23 MON (근로감사의 날)</p>
+  <h2>귀국</h2>
+  <ol class="tt">
+    <li><time>08:00</time><div class="what"><b>호텔 조식</b></div></li>
+    <li class="key"><time>08:45</time><div class="what"><b>먼저 체크아웃 + 짐 맡기기</b><span class="note">11:00 체크아웃에 쫓기지 않게</span></div></li>
+    <li><time>09:15</time><div class="what"><b>아사쿠사 센소지 + 나카미세 거리</b><span class="note">닛포리 → 우에노(JR) → 긴자선, 약 20분. 공휴일이라 이를수록 덜 붐빈다.<br>가볍게 끝내려면 야나카 긴자(닛포리역 서쪽 출구 도보 5분)</span></div></li>
+    <li><time>12:00</time><div class="what"><b>점심</b><span class="note">아사쿠사 또는 닛포리</span></div></li>
+    <li class="key"><time>−3:30</time><div class="what"><b>호텔에서 짐 찾기 → 스카이라이너 → 나리타</b><span class="note">비행기 출발 3시간 30분 전에 호텔을 나선다. 공항에는 2시간 30분 전 도착</span></div></li>
+    <li class="key"><time>공항</time><div class="what"><b>짐 부치기 전에 면세 환급 확인</b><span class="note">출발 로비의 면세 단말기에 여권을 대거나 Visit Japan Web으로 한다. 검사 대상이 나오면 세관에 물건을 보여 줘야 하니 토요일에 산 물건은 꺼내기 쉽게 싼다</span></div></li>
+  </ol>
+</section>
+
+<section id="prep">
+  <p class="date">CHECKLIST</p>
+  <h2>준비물</h2>
+  <p class="small muted">체크 표시는 이 기기에만 저장됩니다.</p>
+  <h3>출국 전 (이번 주)</h3>
+  <div class="chk-group">
+    <label class="chk"><input type="checkbox" id="c-hp"><span><b>해리포터 스튜디오 11/20 14:00 입장권</b> 예매 (3D Secure 등록 카드)</span></label>
+    <label class="chk"><input type="checkbox" id="c-sky"><span>스카이라이너 왕복 표 온라인 예매</span></label>
+    <label class="chk"><input type="checkbox" id="c-vjw"><span>Visit Japan Web 입국 등록 3명</span></label>
+    <label class="chk"><input type="checkbox" id="c-esim"><span>eSIM 또는 로밍</span></label>
+    <label class="chk"><input type="checkbox" id="c-app"><span><b>디즈니 앱:</b> MyDisney 로그인 → 입장권 3장을 안젤라 폰에 등록 → 결제 카드 등록</span></label>
+    <label class="chk"><input type="checkbox" id="c-flt"><span>귀국편 시각 확인 (4일차 호텔 출발 시각이 여기서 정해짐)</span></label>
+    <label class="chk"><input type="checkbox" id="c-bag"><span>접는 장바구니 (오케이 봉투는 유료)</span></label>
+    <label class="chk"><input type="checkbox" id="c-pass"><span>토요일 쇼핑 때 <b>안젤라 여권</b> 챙기기 (면세 계산에 필요)</span></label>
+  </div>
+  <h3>디즈니 전날 밤 (11/21)</h3>
+  <div class="chk-group">
+    <label class="chk"><input type="checkbox" id="c-food"><span>편의점 아침거리, 물, 간식</span></label>
+    <label class="chk"><input type="checkbox" id="c-batt"><span>폰 + 보조배터리 2개 완충</span></label>
+    <label class="chk"><input type="checkbox" id="c-tix"><span>앱에 입장권 3장이 보이는지 확인</span></label>
+    <label class="chk"><input type="checkbox" id="c-gear"><span>방석이나 작은 돗자리, 우비, 핫팩, 얇은 장갑</span></label>
+    <label class="chk"><input type="checkbox" id="c-note"><span>아이들 주머니에 호텔 이름 메모 (아래 카드)</span></label>
+    <label class="chk"><input type="checkbox" id="c-lost"><span>떨어지면 '멈춰서 직원에게' 약속하기</span></label>
+  </div>
+  <h3>옷</h3>
+  <p class="small">11월 하순 도쿄는 아침이 한 자릿수 기온, 낮은 15°C 안팎이고 16시 30분쯤 해가 집니다. 입장 줄과 퍼레이드 대기가 추우니 겹쳐 입고 가벼운 패딩과 편한 운동화를 챙깁니다.</p>
+
+  <h3>택시 기사에게 보여 줄 호텔 카드</h3>
+  <div class="jp">
+    <p class="date" style="color:var(--muted)">HOTEL</p>
+    <p class="name">アルモントホテル日暮里</p>
+    <p class="addr" id="addr-text">〒116-0014 東京都荒川区東日暮里5-47-1</p>
+    <div class="row">
+      <span>전화 <span class="mono">03-5615-3431</span></span>
+      <span>닛포리역 동쪽 출구 도보 5분</span>
+      <button type="button" class="btn" id="copy-addr">주소 복사</button>
+    </div>
+  </div>
+</section>
+
+<section id="money">
+  <p class="date">BUDGET</p>
+  <h2>예상 경비</h2>
+  <h3>디즈니 당일 (입장권·교통비 제외)</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>항목</th><th class="num">3명</th></tr></thead>
+      <tbody>
+        <tr><td>DPA 미녀와 야수 + 푸</td><td class="num">¥12,000</td></tr>
+        <tr><td>점심: 헝그리 베어 카레 + 음료</td><td class="num">약 ¥3,500</td></tr>
+        <tr><td>저녁: 투모로우랜드 테라스 버거 세트</td><td class="num">약 ¥4,200</td></tr>
+        <tr><td>간식·음료 (츄러스, 졸리푸드 플라자 등)</td><td class="num">약 ¥3,000</td></tr>
+      </tbody>
+      <tfoot><tr><td>합계</td><td class="num">약 ¥22,700</td></tr></tfoot>
+    </table>
+  </div>
+  <h3>그 밖에</h3>
+  <div class="tbl">
+    <table>
+      <tbody>
+        <tr><td>해리포터 스튜디오 입장권 (대인 1 + 어린이 2)</td><td class="num">¥14,600~</td></tr>
+        <tr><td>스카이라이너 왕복 (어린이 반값 기준)</td><td class="num">약 ¥10,300</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="links">
+  <p class="date">OFFICIAL</p>
+  <h2>공식 확인 링크</h2>
+  <ul class="links">
+    <li><a href="https://www.tokyodisneyresort.jp/tdl/daily/calendar/20261122" target="_blank" rel="noopener">11/22 디즈니랜드 운영시간·공연 시간</a></li>
+    <li><a href="https://www.tokyodisneyresort.jp/tdl/show/detail/7003/" target="_blank" rel="noopener">토이즈 원더러스 크리스마스! 경로·정지 위치</a></li>
+    <li><a href="https://www.tokyodisneyresort.jp/treasure/christmas2026/tdl/" target="_blank" rel="noopener">디즈니 크리스마스 2026</a></li>
+    <li><a href="https://www.tokyodisneyresort.jp/en/tdr/guide/app_service/disneypremieraccess.html" target="_blank" rel="noopener">디즈니 프리미어 액세스(DPA)</a></li>
+    <li><a href="https://www.tokyodisneyresort.jp/en/tdr/guide/app_service/mobileorder.html" target="_blank" rel="noopener">디즈니 모바일 오더</a></li>
+    <li><a href="https://www.wbstudiotour.jp/tickets" target="_blank" rel="noopener">해리포터 스튜디오 입장권</a></li>
+    <li><a href="https://www.wbstudiotour.jp/plan-your-visit/opening-times/" target="_blank" rel="noopener">해리포터 스튜디오 운영 캘린더</a></li>
+    <li><a href="https://map.uniqlo.com/jp/ja/detail/119186" target="_blank" rel="noopener">UNIQLO TOKYO 매장 정보</a></li>
+    <li><a href="https://ok-corporation.jp/shop/ginnza.html" target="_blank" rel="noopener">오케이 긴자점</a></li>
+    <li><a href="https://www.muji.com/jp/ja/shop/detail/046604" target="_blank" rel="noopener">무인양품 긴자</a></li>
+    <li><a href="https://www.loft.co.jp/ginzaloft/" target="_blank" rel="noopener">긴자 로프트</a></li>
+    <li><a href="https://www.customs.go.jp/kaigairyoko/taxrefund/jpn.htm" target="_blank" rel="noopener">새 면세(리펀드) 제도 · 일본 세관 (한국어 안내문 있음)</a></li>
+    <li><a href="https://www.almont.jp/nippori/access.html" target="_blank" rel="noopener">알몬트 호텔 닛포리 오시는 길</a></li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">확인 기준 2026년 11월 13일, 각 공식 사이트. 운영시간, 대기시간, DPA 남은 수량, 메뉴 가격은 당일 바뀔 수 있습니다.</div>
+</footer>
+
+<script>
+(function(){
+  var KEY='chad-henry-tokyo-2026';
+  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){return {}}}
+  function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+  var st=load(); if(!st.chk) st.chk={};
+
+  document.querySelectorAll('.chk input').forEach(function(el){
+    if(st.chk[el.id]) el.checked=true;
+    el.addEventListener('change',function(){st.chk[el.id]=el.checked;save(st);});
+  });
+
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('.seg [role="tab"]'));
+  function show(panelId,persist){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===panelId;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+    });
+    if(persist){st.plan=panelId;save(st);}
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'),true);});
+    t.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+        var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
+        n.focus(); show(n.getAttribute('aria-controls'),true);
+      }
+    });
+  });
+  if(st.plan==='plan-b') show('plan-b',false);
+
+  var btn=document.getElementById('copy-addr'), addr=document.getElementById('addr-text');
+  function selectAddr(){
+    var r=document.createRange(); r.selectNodeContents(addr);
+    var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent='선택됨, 복사하세요';
+  }
+  btn.addEventListener('click',function(){
+    var txt='アルモントホテル日暮里 '+addr.textContent;
+    var ok=function(){btn.textContent='복사됨';setTimeout(function(){btn.textContent='주소 복사';},1600);};
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,selectAddr);}
+      else selectAddr();
+    }catch(e){selectAddr();}
+  });
+
+  var links={}; document.querySelectorAll('nav.tabs a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a;});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting&&links[en.target.id]){
+          Object.keys(links).forEach(function(k){links[k].removeAttribute('aria-current');});
+          links[en.target.id].setAttribute('aria-current','true');
+          var a=links[en.target.id], bar=a.parentNode;
+          if(a.offsetLeft<bar.scrollLeft||a.offsetLeft+a.offsetWidth>bar.scrollLeft+bar.clientWidth){bar.scrollLeft=a.offsetLeft-16;}
+        }
+      });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('main section[id]').forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+
+</body>
+</html>
